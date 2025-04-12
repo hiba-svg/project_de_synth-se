@@ -1062,6 +1062,102 @@ a:focus {
 .carousel-item img:hover {
   transform: scale(1.1); /* Agrandit l'image encore plus légèrement au survol */
 }
+.food_section .filters_menu {
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style-type: none;
+  margin: 20px 0 30px;
+}
+
+.food_section .filters_menu li {
+  padding: 7px 20px;
+  cursor: pointer;
+  border-radius: 20px;
+  margin: 0 5px;
+}
+
+.food_section .filters_menu li.active,
+.food_section .filters_menu li:hover {
+  background-color: #FDBD3D;
+  color: #ffffff;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.pagination .page-item {
+  margin: 0 5px;
+}
+
+.pagination .page-item .page-link {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  text-align: center;
+  padding: 0;
+  line-height: 45px;
+  font-weight: bold;
+  color: white;
+  background-color: #FDBD3D;
+  border: none;
+  transition: 0.3s ease;
+}
+
+.pagination .page-item .page-link:hover {
+  background-color: #f4a700;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #FDBD3D;
+  color: white;
+}
+
+.pagination .page-item.disabled .page-link {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.pagination .page-item:first-child .page-link,
+.pagination .page-item:last-child .page-link {
+  background-color: #bbb;
+  color: white;
+}
+
+.pagination .page-item:first-child .page-link:hover,
+.pagination .page-item:last-child .page-link:hover {
+  background-color: #797777;
+}
+
+/* Style pour le compteur du panier */
+#cart-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #FDBD3D;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+/* Ajoutez ceci à votre CSS existant */
+.pagination-container {
+  display: none; /* Cache par défaut */
+}
+
+/* Affiche seulement quand la catégorie Tout est active */
+.show-pagination .pagination-container {
+  display: block;
+}
 
 
 /*# sourceMappingURL=style.css.map */
