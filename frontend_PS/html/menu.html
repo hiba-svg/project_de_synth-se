@@ -753,22 +753,6 @@
         </div>        
             <!-- end du page 1 -->
       </div>
-
-      <!-- Pagination - Conteneur -->
-      <div class="pagination-container">
-        <nav aria-label="Page navigation">
-          <ul class="pagination justify-content-center">
-            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">«</a></li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item"><a class="page-link" href="#">5</a></li>
-            <li class="page-item"><a class="page-link" href="#">»</a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
   </section>
 
   <!--footer-->
@@ -838,46 +822,5 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
   <!-- End Google Map -->
 
-  <script>
-    // Script pour le panier (inchangé)
-    let count = 0;
-    const addToCartButtons = document.querySelectorAll('.add-to-cart');
-    const cartCount = document.getElementById('cart-count');
-    
-    addToCartButtons.forEach(button => {
-      button.addEventListener('click', function(e) {
-        e.preventDefault();
-        count++;
-        cartCount.textContent = count;
-        cartCount.style.display = 'inline-block';
-        alert("Le produit a été ajouté au panier");
-      });
-    });
-
-    // Nouveau script pour gérer la pagination
-    document.addEventListener('DOMContentLoaded', function() {
-      const filterItems = document.querySelectorAll('.filters_menu li');
-      const paginationContainer = document.querySelector('.pagination-container');
-      
-      // Par défaut, on montre la pagination (catégorie Tout active)
-      document.body.classList.add('show-pagination');
-      
-      filterItems.forEach(item => {
-        item.addEventListener('click', function() {
-          // Retire active de tous les éléments
-          filterItems.forEach(i => i.classList.remove('active'));
-          // Ajoute active à l'élément cliqué
-          this.classList.add('active');
-          
-          // Gestion de la pagination
-          if (this.getAttribute('data-filter') === '*') {
-            document.body.classList.add('show-pagination');
-          } else {
-            document.body.classList.remove('show-pagination');
-          }
-        });
-      });
-    });
-  </script>
 </body>
 </html>
