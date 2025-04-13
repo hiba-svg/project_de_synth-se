@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!-- Basic -->
   <meta charset="utf-8" />
@@ -25,6 +26,7 @@
   <!-- responsive style -->
   <link href="/frontend_PS/css/responsive.css" rel="stylesheet" />
   <style>
+    /* Styles optimisés pour les filtres et pagination */
     .food_section .filters_menu {
       padding: 0;
       display: flex;
@@ -39,6 +41,8 @@
       cursor: pointer;
       border-radius: 20px;
       margin: 0 5px;
+      transition: all 0.3s;
+      background: #f8f9fa;
     }
     
     .food_section .filters_menu li.active,
@@ -46,811 +50,809 @@
       background-color: #FDBD3D;
       color: #ffffff;
     }
+
+    /* Pagination moderne */
+    .pagination-container {
+      margin: 30px auto;
+      text-align: center;
+      display: block;
+    }
     
     .pagination {
-      display: flex;
-      justify-content: center;
-      margin-top: 30px;
       display: inline-flex;
       list-style: none;
       padding: 0;
+      align-items: center;
     }
     
-    .pagination .page-item {
-      margin: 0 5px;
+    .page-item {
+      margin: 0 3px;
     }
     
-    .pagination .page-item .page-link {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      text-align: center;
-      padding: 0;
-      line-height: 45px;
-      font-weight: bold;
-      color: white;
-      background-color: #FDBD3D;
-      border: none;
-      transition: 0.3s ease;
-    }
-    
-    .pagination .page-item .page-link:hover {
-      background-color: #f4a700;
-    }
-    
-    .pagination .page-item.active .page-link {
-      background-color: #FDBD3D;
-      color: white;
-    }
-    
-    .pagination .page-item.disabled .page-link {
-      background-color: #ccc;
-      color: #666;
-      cursor: not-allowed;
-    }
-    
-    .pagination .page-item:first-child .page-link,
-    .pagination .page-item:last-child .page-link {
-      background-color: #bbb;
-      color: white;
-    }
-    
-    .pagination .page-item:first-child .page-link:hover,
-    .pagination .page-item:last-child .page-link:hover {
-      background-color: #797777;
-    }
-    
-    /* Style pour le compteur du panier */
-    #cart-count {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      background: #FDBD3D;
-      color: white;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
+    .page-link {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 12px;
-    }
-    /* Ajoutez ceci à votre CSS existant */
-    .pagination-container {
-      display: none; /* Cache par défaut */
-      margin-top: 30px;
-      text-align: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: white;
+      border: 1px solid #FDBD3D;
+      color: #FDBD3D;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     
-    /* Affiche seulement quand la catégorie Tout est active */
-    .show-pagination .pagination-container {
-      display: block;
+    .page-item.active .page-link {
+      background-color: #FDBD3D;
+      color: white;
+      border-color: #FDBD3D;
+      transform: scale(1.1);
+    }
+    
+    .page-item.disabled .page-link {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    
+    .page-link:hover:not(.active) {
+      background-color: rgba(253, 189, 61, 0.1);
+      transform: translateY(-2px);
     }
 
-    .page-item {
-      margin: 0 5px;
+    /* Animation pour le changement de page */
+    .box {
+      display: none;
+      animation: fadeIn 0.5s ease-out;
     }
-  </style>
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Style du compteur de panier */
+    #cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #FDBD3D;
+      color: white;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    </style>
 </head>
 
 <body class="sub_page show-pagination" class="sub_page"> <!-- Ajout de show-pagination par défaut -->
-        <div class="hero_area">
-          <div class="bg-box">
-            <img src="/frontend_PS/images/hero-bg.jpg" alt="">
+  <div class="hero_area">
+    <div class="bg-box">
+      <img src="/frontend_PS//images/hero-bg.jpg" alt="">
+    </div>
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
+          <a class="navbar-brand" href="index.html">
+            <span>ELBARAKA</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html">Accueil</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="menu.html">Menu <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="about.html">À propos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="book.html">Réserver</a>
+              </li>
+            </ul>
+            <div class="user_option">
+              <a class="cart_link" href="#" id="cart-link" style="position: relative;">
+                <span id="cart-count" style="display: none;"></span>
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                  <g>
+                    <g>
+                      <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                        c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
+                    </g>
+                  </g>
+                  <g>
+                    <g>
+                      <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                        C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                        c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                        C457.728,97.71,450.56,86.958,439.296,84.91z" />
+                    </g>
+                  </g>
+                  <g>
+                    <g>
+                      <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                        c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
+                    </g>
+                  </g>
+                </svg>
+              </a>
+              <a href="" class="order_online">
+                Commander en ligne
+              </a>
+            </div>
           </div>
-          <!-- header section strats -->
-          <header class="header_section">
-            <div class="container">
-              <nav class="navbar navbar-expand-lg custom_nav-container">
-                <a class="navbar-brand" href="index.html">
-                  <span>ELBARAKA</span>
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class=""></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul class="navbar-nav mx-auto">
-                    <li class="nav-item">
-                      <a class="nav-link" href="index.html">Accueil</a>
-                    </li>
-                    <li class="nav-item active">
-                      <a class="nav-link" href="menu.html">Menu <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="about.html">À propos</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="book.html">Réserver</a>
-                    </li>
-                  </ul>
-                  <div class="user_option">
-                    <a class="cart_link" href="#" id="cart-link" style="position: relative;">
-                      <span id="cart-count" style="display: none;"></span>
-                      <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                        <g>
-                          <g>
-                            <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                              c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
-                          </g>
-                        </g>
-                        <g>
-                          <g>
-                            <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+  </div>
+<!-- food section -->
+<section class="food_section layout_padding">
+<div class="container">
+<div class="heading_container heading_center">
+  <h2>Notre Menu</h2>
+</div>
+<ul class="filters_menu">
+  <li class="active" data-filter="*">Tout</li>
+  <li data-filter=".burger">Burger</li>
+  <li data-filter=".pizza">Pizza</li>
+  <li data-filter=".pasta">Pasta</li>
+  <li data-filter=".fries">Frites</li>
+  <li data-filter=".salad">Salade</li>
+</ul>
+<div class="menu-container" id="menu-container"></div>
+  <div class="filters-content">
+    <div class="row grid">
+      <!-- Pizza Fruit de Mer -->
+      <div class="col-sm-6 col-lg-4 all pizza">
+        <div class="box">
+          <div>
+              <div class="img-box">
+                  <img src="/frontend_PS/images/f1.png" alt="">
+              </div>
+              <div class="detail-box">
+                    <h5>pizza fruit de mer</h5>
+                    <p>Pizza garnie de fruits de mer frais avec sauce tomate, fromage et herbes aromatiques, pour un goût méditerranéen authentique.</p>
+                    <div class="options">
+                        <h6>200 DH</h6>
+                        <a href="" class="add-to-cart">
+                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                              <g>
+                                <g>
+                                  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                              c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
+                                </g>
+                              </g>
+                              <g>
+                                <g>
+                                  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
                               C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
                               c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                              C457.728,97.71,450.56,86.958,439.296,84.91z" />
-                          </g>
-                        </g>
-                        <g>
-                          <g>
-                            <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                              c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
-                          </g>
-                        </g>
-                      </svg>
-                    </a>
-                    <a href="" class="order_online">
-                      Commander en ligne
-                    </a>
-                  </div>
+                              C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
+                                </g>
+                              </g>
+                              <g>
+                                <g>
+                                  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                              c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
+                                </g>
+                              </g>
+                            </svg>
+                          </a>
+                    </div>
                 </div>
-              </nav>
             </div>
-          </header>
-          <!-- end header section -->
         </div>
-  <!-- food section -->
-  <section class="food_section layout_padding">
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>Notre Menu</h2>
       </div>
-      <ul class="filters_menu">
-        <li class="active" data-filter="*">Tout</li>
-        <li data-filter=".burger">Burger</li>
-        <li data-filter=".pizza">Pizza</li>
-        <li data-filter=".pasta">Pasta</li>
-        <li data-filter=".fries">Frites</li>
-        <li data-filter=".salad">Salade</li>
-      </ul>
-      <div class="menu-container" id="menu-container"></div>
-      <div class="filters-content">
-        <div class="row grid">
-            <div>
-                    <!-- Pizza Fruit de Mer -->
-                    <div class="col-sm-6 col-lg-4 all pizza">
-                        <div class="box">
-                            <div>
-                                <div class="img-box">
-                                    <img src="/frontend_PS/images/f1.png" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h5>pizza fruit de mer</h5>
-                                    <p>Pizza garnie de fruits de mer frais avec sauce tomate, fromage et herbes aromatiques, pour un goût méditerranéen authentique.</p>
-                                    <div class="options">
-                                        <h6>200 DH</h6>
-                                        <a href="" class="add-to-cart">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                                              <g>
-                                                <g>
-                                                  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                                               c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                                               C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                                               c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                                               C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                                               c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
-                                                </g>
-                                              </g>
-                                            </svg>
-                                          </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Pasta al Limone -->
-                    <div class="col-sm-6 col-lg-4 all pasta">
-                        <div class="box">
-                            <div>
-                                <div class="img-box">
-                                    <img src="/frontend_PS/images/pasta1-removebg-preview.png" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h5>pasta al limone</h5>
-                                    <p>Pâtes légères et rafraîchissantes avec une sauce crémeuse au citron, parmesan et herbes fraîches pour une touche d'élégance.</p>
-                                    <div class="options">
-                                        <h6>200 DH</h6>
-                                        <a href="" class="add-to-cart">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                                              <g>
-                                                <g>
-                                                  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                                               c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                                               C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                                               c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                                               C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                                               c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
-                                                </g>
-                                              </g>
-                                            </svg>
-                                          </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Burger -->
-                    <div class="col-sm-6 col-lg-4 all burger">
-                        <div class="box">
-                            <div>
-                                <div class="img-box">
-                                    <img src="/frontend_PS/images/f2.png" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h5>Burger</h5>
-                                    <p>Burger gourmet avec filet de poulet croustillant, légumes frais et sauce maison dans un pain brioché moelleux.</p>
-                                    <div class="options">
-                                        <h6>150 DH</h6>
-                                        <a href="" class="add-to-cart">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                                              <g>
-                                                <g>
-                                                  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                                               c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                                               C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                                               c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                                               C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                                               c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
-                                                </g>
-                                              </g>
-                                            </svg>
-                                          </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Frites à l'ail -->
-                    <div class="col-sm-6 col-lg-4 all fries">
-                        <div class="box">
-                            <div>
-                                <div class="img-box">
-                                    <img src="/frontend_PS/images/frite-removebg-preview.png" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h5>FRITE a l'ail</h5>
-                                    <p>Frites dorées et croustillantes parfumées à l'ail frais et saupoudrées de persil pour un accompagnement savoureux.</p>
-                                    <div class="options">
-                                        <h6>50 DH</h6>
-                                        <a href="" class="add-to-cart">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                                              <g>
-                                                <g>
-                                                  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                                               c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                                               C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                                               c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                                               C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                                               c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
-                                                </g>
-                                              </g>
-                                            </svg>
-                                          </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Salade -->
-                    <div class="col-sm-6 col-lg-4 all salad">
-                        <div class="box">
-                            <div>
-                                <div class="img-box">
-                                    <img src="/frontend_PS/images/salad1-removebg-preview.png" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h5>Salade</h5>
-                                    <p>Salade fraîche composée de légumes de saison, fromage et vinaigrette maison pour une option légère et savoureuse.</p>
-                                    <div class="options">
-                                        <h6>200 DH</h6>
-                                        <a href="" class="add-to-cart">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                                              <g>
-                                                <g>
-                                                  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                                               c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                                               C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                                               c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                                               C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                                               c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
-                                                </g>
-                                              </g>
-                                            </svg>
-                                          </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Salade des légumes -->
-                    <div class="col-sm-6 col-lg-4 all salad">
-                        <div class="box">
-                            <div>
-                                <div class="img-box">
-                                    <img src="/frontend_PS/images/salad-removebg-preview.png" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h5>Salade des legumes</h5>
-                                    <p>Mélange croquant de légumes frais avec olives et vinaigrette légère pour une entrée rafraîchissante et équilibrée.</p>
-                                    <div class="options">
-                                        <h6>100 DH</h6>
-                                        <a href="" class="add-to-cart">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                                              <g>
-                                                <g>
-                                                  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                                               c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                                               C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                                               c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                                               C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                                               c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
-                                                </g>
-                                              </g>
-                                            </svg>
-                                          </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Salade de poulet -->
-                    <div class="col-sm-6 col-lg-4 all salad">
-                        <div class="box">
-                            <div>
-                                <div class="img-box">
-                                    <img src="/frontend_PS/images/salad2-removebg-preview.png" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h5>Salade de poulet</h5>
-                                    <p>Salade complète avec poulet tendre, légumes croquants et sauce onctueuse pour un repas léger et nourrissant.</p>
-                                    <div class="options">
-                                        <h6>200 DH</h6>
-                                        <a href="" class="add-to-cart">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                                              <g>
-                                                <g>
-                                                  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                                               c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                                               C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                                               c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                                               C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                                               c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
-                                                </g>
-                                              </g>
-                                            </svg>
-                                          </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Pizza -->
-                    <div class="col-sm-6 col-lg-4 all pizza">
-                        <div class="box">
-                            <div>
-                                <div class="img-box">
-                                    <img src="/frontend_PS/images/f3.png" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h5>Pizza</h5>
-                                    <p>Pizza classique avec sauce tomate, fromage fondant et olives pour une saveur méditerranéenne authentique.</p>
-                                    <div class="options">
-                                        <h6>170 DH</h6>
-                                        <a href="" class="add-to-cart">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                                              <g>
-                                                <g>
-                                                  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                                               c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                                               C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                                               c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                                               C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                                               c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
-                                                </g>
-                                              </g>
-                                            </svg>
-                                          </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Frites de patates -->
-                    <div class="col-sm-6 col-lg-4 all fries">
-                        <div class="box">
-                            <div>
-                                <div class="img-box">
-                                    <img src="/frontend_PS/images/frite-removebg-preview (1).png" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h5>Frites de patates</h5>
-                                    <p>Frites maison coupées à la main et cuites à la perfection pour un accompagnement croustillant et savoureux.</p>
-                                    <div class="options">
-                                        <h6>70 DH</h6>
-                                        <a href="" class="add-to-cart">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                                              <g>
-                                                <g>
-                                                  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                                               c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                                               C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                                               c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                                               C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                                               c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
-                                                </g>
-                                              </g>
-                                            </svg>
-                                          </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Spicy penne Pasta -->
-                    <div class="col-sm-6 col-lg-4 all pasta">
-                        <div class="box">
-                            <div>
-                                <div class="img-box">
-                                    <img src="/frontend_PS/images/pasta-removebg-preview.png" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h5>Spicy penne Pasta</h5>
-                                    <p>Pâtes penne relevées avec une sauce épicée et des herbes fraîches pour les amateurs de saveurs intenses.</p>
-                                    <div class="options">
-                                        <h6>180 DH</h6>
-                                        <a href="" class="add-to-cart">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                                              <g>
-                                                <g>
-                                                  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                                               c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                                               C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                                               c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                                               C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                                               c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
-                                                </g>
-                                              </g>
-                                            </svg>
-                                          </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Frite -->
-                    <div class="col-sm-6 col-lg-4 all fries">
-                        <div class="box">
-                            <div>
-                                <div class="img-box">
-                                    <img src="/frontend_PS/images/f5.png" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h5>Frite</h5>
-                                    <p>Frites classiques croustillantes à l'extérieur et moelleuses à l'intérieur, parfaites pour accompagner vos plats.</p>
-                                    <div class="options">
-                                        <h6>40 DH</h6>
-                                        <a href="" class="add-to-cart">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                                              <g>
-                                                <g>
-                                                  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                                               c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                                               C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                                               c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                                               C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                                               c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
-                                                </g>
-                                              </g>
-                                            </svg>
-                                          </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Pizza mixte -->
-                    <div class="col-sm-6 col-lg-4 all pizza">
-                        <div class="box">
-                            <div>
-                                <div class="img-box">
-                                    <img src="/frontend_PS/images/f6.png" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h5>Pizza mixte</h5>
-                                    <p>Pizza généreusement garnie de divers ingrédients pour satisfaire toutes les envies en une seule bouchée.</p>
-                                    <div class="options">
-                                        <h6>150 DH</h6>
-                                        <a href="" class="add-to-cart">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                                              <g>
-                                                <g>
-                                                  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                                               c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                                               C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                                               c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                                               C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                                               c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
-                                                </g>
-                                              </g>
-                                            </svg>
-                                          </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Burger au poulet -->
-                    <div class="col-sm-6 col-lg-4 all burger">
-                        <div class="box">
-                            <div>
-                                <div class="img-box">
-                                    <img src="/frontend_PS/images/f7.png" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h5>burger au poulet</h5>
-                                    <p>Burger savoureux avec filet de poulet croustillant, légumes frais et sauce maison dans un pain moelleux.</p>
-                                    <div class="options">
-                                        <h6>120 DH</h6>
-                                        <a href="" class="add-to-cart">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                                              <g>
-                                                <g>
-                                                  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                                               c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                                               C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                                               c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                                               C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                                               c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
-                                                </g>
-                                              </g>
-                                            </svg>
-                                          </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Burger Tex-Mex -->
-                    <div class="col-sm-6 col-lg-4 all burger">
-                        <div class="box">
-                            <div>
-                                <div class="img-box">
-                                    <img src="/frontend_PS/images/f8.png" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h5>Burger Tex-Mex</h5>
-                                    <p>Burger épicé avec viande assaisonnée, fromage fondu et garnitures tex-mex pour une explosion de saveurs.</p>
-                                    <div class="options">
-                                        <h6>140 DH</h6>
-                                        <a href="" class="add-to-cart">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                                              <g>
-                                                <g>
-                                                  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                                               c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                                               C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                                               c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                                               C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                                               c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
-                                                </g>
-                                              </g>
-                                            </svg>
-                                          </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Spaghetti alla Caprese -->
-                    <div class="col-sm-6 col-lg-4 all pasta">
-                        <div class="box">
-                            <div>
-                                <div class="img-box">
-                                    <img src="/frontend_PS/images/f9.png" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h5>Spaghetti alla Caprese</h5>
-                                    <p>Spaghetti avec sauce tomate fraîche, mozzarella et basilic pour un classique italien simple et délicieux.</p>
-                                    <div class="options">
-                                        <h6>100 DH</h6>
-                                        <a href="" class="add-to-cart">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                                              <g>
-                                                <g>
-                                                  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                                               c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                                               C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                                               c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                                               C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
-                                                </g>
-                                              </g>
-                                              <g>
-                                                <g>
-                                                  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                                               c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
-                                                </g>
-                                              </g>
-                                            </svg>
-                                          </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <!-- Pasta al Limone -->
+            <div class="col-sm-6 col-lg-4 all pasta">
+              <div class="box">
+                  <div>
+                      <div class="img-box">
+                          <img src="/frontend_PS/images/pasta1-removebg-preview.png" alt="">
+                      </div>
+                      <div class="detail-box">
+                          <h5>pasta al limone</h5>
+                          <p>Pâtes légères et rafraîchissantes avec une sauce crémeuse au citron, parmesan et herbes fraîches pour une touche d'élégance.</p>
+                          <div class="options">
+                              <h6>200 DH</h6>
+                              <a href="" class="add-to-cart">
+                                  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                    <g>
+                                      <g>
+                                        <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                                    c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                                    C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                                    c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                                    C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                    c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
+                                      </g>
+                                    </g>
+                                  </svg>
+                                </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+          <!-- Burger -->
+          <div class="col-sm-6 col-lg-4 all burger">
+              <div class="box">
+                  <div>
+                      <div class="img-box">
+                          <img src="/frontend_PS/images/f2.png" alt="">
+                      </div>
+                      <div class="detail-box">
+                          <h5>Burger</h5>
+                          <p>Burger gourmet avec filet de poulet croustillant, légumes frais et sauce maison dans un pain brioché moelleux.</p>
+                          <div class="options">
+                              <h6>150 DH</h6>
+                              <a href="" class="add-to-cart">
+                                  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                    <g>
+                                      <g>
+                                        <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                                    c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                                    C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                                    c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                                    C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                    c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
+                                      </g>
+                                    </g>
+                                  </svg>
+                                </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+          <!-- Frites à l'ail -->
+          <div class="col-sm-6 col-lg-4 all fries">
+              <div class="box">
+                  <div>
+                      <div class="img-box">
+                          <img src="/frontend_PS/images/frite-removebg-preview.png" alt="">
+                      </div>
+                      <div class="detail-box">
+                          <h5>FRITE a l'ail</h5>
+                          <p>Frites dorées et croustillantes parfumées à l'ail frais et saupoudrées de persil pour un accompagnement savoureux.</p>
+                          <div class="options">
+                              <h6>50 DH</h6>
+                              <a href="" class="add-to-cart">
+                                  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                    <g>
+                                      <g>
+                                        <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                                    c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                                    C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                                    c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                                    C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                    c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
+                                      </g>
+                                    </g>
+                                  </svg>
+                                </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+          <!-- Salade -->
+          <div class="col-sm-6 col-lg-4 all salad">
+              <div class="box">
+                  <div>
+                      <div class="img-box">
+                          <img src="/frontend_PS/images/salad1-removebg-preview.png" alt="">
+                      </div>
+                      <div class="detail-box">
+                          <h5>Salade</h5>
+                          <p>Salade fraîche composée de légumes de saison, fromage et vinaigrette maison pour une option légère et savoureuse.</p>
+                          <div class="options">
+                              <h6>200 DH</h6>
+                              <a href="" class="add-to-cart">
+                                  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                    <g>
+                                      <g>
+                                        <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                                    c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                                    C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                                    c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                                    C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                    c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
+                                      </g>
+                                    </g>
+                                  </svg>
+                                </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+          <!-- Salade des légumes -->
+          <div class="col-sm-6 col-lg-4 all salad">
+              <div class="box">
+                  <div>
+                      <div class="img-box">
+                          <img src="/frontend_PS/images/salad-removebg-preview.png" alt="">
+                      </div>
+                      <div class="detail-box">
+                          <h5>Salade des legumes</h5>
+                          <p>Mélange croquant de légumes frais avec olives et vinaigrette légère pour une entrée rafraîchissante et équilibrée.</p>
+                          <div class="options">
+                              <h6>100 DH</h6>
+                              <a href="" class="add-to-cart">
+                                  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                    <g>
+                                      <g>
+                                        <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                                    c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                                    C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                                    c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                                    C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                    c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
+                                      </g>
+                                    </g>
+                                  </svg>
+                                </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+          <!-- Salade de poulet -->
+          <div class="col-sm-6 col-lg-4 all salad">
+              <div class="box">
+                  <div>
+                      <div class="img-box">
+                          <img src="/frontend_PS/images/salad2-removebg-preview.png" alt="">
+                      </div>
+                      <div class="detail-box">
+                          <h5>Salade de poulet</h5>
+                          <p>Salade complète avec poulet tendre, légumes croquants et sauce onctueuse pour un repas léger et nourrissant.</p>
+                          <div class="options">
+                              <h6>200 DH</h6>
+                              <a href="" class="add-to-cart">
+                                  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                    <g>
+                                      <g>
+                                        <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                                    c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                                    C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                                    c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                                    C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                    c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
+                                      </g>
+                                    </g>
+                                  </svg>
+                                </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+          <!-- Pizza -->
+          <div class="col-sm-6 col-lg-4 all pizza">
+              <div class="box">
+                  <div>
+                      <div class="img-box">
+                          <img src="/frontend_PS/images/f3.png" alt="">
+                      </div>
+                      <div class="detail-box">
+                          <h5>Pizza</h5>
+                          <p>Pizza classique avec sauce tomate, fromage fondant et olives pour une saveur méditerranéenne authentique.</p>
+                          <div class="options">
+                              <h6>170 DH</h6>
+                              <a href="" class="add-to-cart">
+                                  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                    <g>
+                                      <g>
+                                        <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                                    c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                                    C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                                    c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                                    C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                    c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
+                                      </g>
+                                    </g>
+                                  </svg>
+                                </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+          <!-- Frites de patates -->
+          <div class="col-sm-6 col-lg-4 all fries">
+              <div class="box">
+                  <div>
+                      <div class="img-box">
+                          <img src="/frontend_PS/images/frite-removebg-preview (1).png" alt="">
+                      </div>
+                      <div class="detail-box">
+                          <h5>Frites de patates</h5>
+                          <p>Frites maison coupées à la main et cuites à la perfection pour un accompagnement croustillant et savoureux.</p>
+                          <div class="options">
+                              <h6>70 DH</h6>
+                              <a href="" class="add-to-cart">
+                                  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                    <g>
+                                      <g>
+                                        <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                                    c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                                    C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                                    c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                                    C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                    c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
+                                      </g>
+                                    </g>
+                                  </svg>
+                                </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      
+          <!-- Spicy penne Pasta -->
+          <div class="col-sm-6 col-lg-4 all pasta">
+              <div class="box">
+                  <div>
+                      <div class="img-box">
+                          <img src="/frontend_PS/images/pasta-removebg-preview.png" alt="">
+                      </div>
+                      <div class="detail-box">
+                          <h5>Spicy penne Pasta</h5>
+                          <p>Pâtes penne relevées avec une sauce épicée et des herbes fraîches pour les amateurs de saveurs intenses.</p>
+                          <div class="options">
+                              <h6>180 DH</h6>
+                              <a href="" class="add-to-cart">
+                                  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                    <g>
+                                      <g>
+                                        <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                                    c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                                    C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                                    c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                                    C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                    c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
+                                      </g>
+                                    </g>
+                                  </svg>
+                                </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+          <!-- Frite -->
+          <div class="col-sm-6 col-lg-4 all fries">
+              <div class="box">
+                  <div>
+                      <div class="img-box">
+                          <img src="/frontend_PS/images/f5.png" alt="">
+                      </div>
+                      <div class="detail-box">
+                          <h5>Frite</h5>
+                          <p>Frites classiques croustillantes à l'extérieur et moelleuses à l'intérieur, parfaites pour accompagner vos plats.</p>
+                          <div class="options">
+                              <h6>40 DH</h6>
+                              <a href="" class="add-to-cart">
+                                  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                    <g>
+                                      <g>
+                                        <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                                    c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                                    C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                                    c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                                    C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                    c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
+                                      </g>
+                                    </g>
+                                  </svg>
+                                </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+          <!-- Pizza mixte -->
+          <div class="col-sm-6 col-lg-4 all pizza">
+              <div class="box">
+                  <div>
+                      <div class="img-box">
+                          <img src="/frontend_PS/images/f6.png" alt="">
+                      </div>
+                      <div class="detail-box">
+                          <h5>Pizza mixte</h5>
+                          <p>Pizza généreusement garnie de divers ingrédients pour satisfaire toutes les envies en une seule bouchée.</p>
+                          <div class="options">
+                              <h6>150 DH</h6>
+                              <a href="" class="add-to-cart">
+                                  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                    <g>
+                                      <g>
+                                        <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                                    c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                                    C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                                    c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                                    C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                    c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
+                                      </g>
+                                    </g>
+                                  </svg>
+                                </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+          <!-- Burger au poulet -->
+          <div class="col-sm-6 col-lg-4 all burger">
+              <div class="box">
+                  <div>
+                      <div class="img-box">
+                          <img src="/frontend_PS/images/f7.png" alt="">
+                      </div>
+                      <div class="detail-box">
+                          <h5>burger au poulet</h5>
+                          <p>Burger savoureux avec filet de poulet croustillant, légumes frais et sauce maison dans un pain moelleux.</p>
+                          <div class="options">
+                              <h6>120 DH</h6>
+                              <a href="" class="add-to-cart">
+                                  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                    <g>
+                                      <g>
+                                        <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                                    c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                                    C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                                    c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                                    C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                    c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
+                                      </g>
+                                    </g>
+                                  </svg>
+                                </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+          <!-- Burger Tex-Mex -->
+          <div class="col-sm-6 col-lg-4 all burger">
+              <div class="box">
+                  <div>
+                      <div class="img-box">
+                          <img src="/frontend_PS/images/f8.png" alt="">
+                      </div>
+                      <div class="detail-box">
+                          <h5>Burger Tex-Mex</h5>
+                          <p>Burger épicé avec viande assaisonnée, fromage fondu et garnitures tex-mex pour une explosion de saveurs.</p>
+                          <div class="options">
+                              <h6>140 DH</h6>
+                              <a href="" class="add-to-cart">
+                                  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                    <g>
+                                      <g>
+                                        <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                                    c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                                    C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                                    c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                                    C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                    c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
+                                      </g>
+                                    </g>
+                                  </svg>
+                                </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+          <!-- Spaghetti alla Caprese -->
+          <div class="col-sm-6 col-lg-4 all pasta">
+              <div class="box">
+                  <div>
+                      <div class="img-box">
+                          <img src="/frontend_PS/images/f9.png" alt="">
+                      </div>
+                      <div class="detail-box">
+                          <h5>Spaghetti alla Caprese</h5>
+                          <p>Spaghetti avec sauce tomate fraîche, mozzarella et basilic pour un classique italien simple et délicieux.</p>
+                          <div class="options">
+                              <h6>100 DH</h6>
+                              <a href="" class="add-to-cart">
+                                  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                    <g>
+                                      <g>
+                                        <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                                    c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                                    C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                                    c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                                    C457.728,97.71,450.56,86.958,439.296,84.91z"></path>
+                                      </g>
+                                    </g>
+                                    <g>
+                                      <g>
+                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                    c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z"></path>
+                                      </g>
+                                    </g>
+                                  </svg>
+                                </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+    </div>
 
-      <!-- Pagination - Conteneur -->
-       <div class="pagination-container">
+    
+
+  </div>
+</div>
+
+
+  <!-- Pagination -->
+  <div class="pagination-container">
     <ul class="pagination" id="pagination">
       <li class="page-item disabled" id="prev-btn">
         <a class="page-link" href="#" aria-label="Previous">
@@ -865,10 +867,7 @@
       </li>
     </ul>
   </div>
-  </div>
-</section>
 
-  <!--footer-->
   <footer class="footer_section">
     <div class="container">
       <div class="row">
@@ -917,185 +916,161 @@
   </footer>
 
 
-  <!-- jQery -->
-  <script src="/frontend_PS/js/jquery-3.4.1.min.js"></script>
-  <!-- popper js -->
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-  <!-- bootstrap js -->
-  <script src="/frontend_PS/js/bootstrap.js"></script>
-  <!-- owl slider -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-  <!-- isotope js -->
-  <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
-  <!-- nice select -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
-  <!-- custom js -->
-  <script src="/frontend_PS/js/custom.js"></script>
-  <!-- Google Map -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
-  <!-- End Google Map -->
-  
-  
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Configuration
-        const ITEMS_PER_PAGE = 3;
-        const allItems = Array.from(document.querySelectorAll('.box'));
-        let currentPage = 1;
-        let currentFilter = '*';
+      // Configuration de base
+      const ITEMS_PER_PAGE = 3;
+      const allMenuItems = Array.from(document.querySelectorAll('.box'));
+      let currentPage = 1;
+      let currentFilter = '*';
+      
+      // Initialisation
+      initPagination();
+      setupEventListeners();
+      showPage(1);
+
+      // Fonction d'initialisation de la pagination
+      function initPagination() {
+        const totalPages = Math.ceil(allMenuItems.length / ITEMS_PER_PAGE);
+        const pagination = document.querySelector('.pagination');
         
-        // Initialisation
-        initPagination();
-        setupEventListeners();
-        showPage(1);
-    
-        // Fonction principale pour afficher une page
-        function showPage(page) {
-            currentPage = page;
-            
-            // 1. Masquer tous les éléments
-            allItems.forEach(item => {
-                item.style.display = 'none';
-                item.classList.remove('active-item');
-            });
-            
-            // 2. Obtenir les éléments visibles (filtrés)
-            const visibleItems = getVisibleItems();
-            
-            // 3. Calculer les éléments à afficher pour cette page
-            const startIndex = (page - 1) * ITEMS_PER_PAGE;
-            const endIndex = startIndex + ITEMS_PER_PAGE;
-            const itemsToShow = visibleItems.slice(startIndex, endIndex);
-            
-            // 4. Afficher les éléments de la page courante avec animation
-            itemsToShow.forEach((item, index) => {
-                item.style.display = 'block';
-                item.classList.add('active-item');
-                item.style.animationDelay = `${index * 0.1}s`;
-            });
-            
-            // 5. Mettre à jour la pagination
-            updatePagination();
+        // Nettoyage de la pagination existante
+        pagination.innerHTML = '';
+        
+        // Bouton Précédent
+        pagination.innerHTML += `
+          <li class="page-item disabled" id="prev-btn">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span>&laquo;</span>
+            </a>
+          </li>
+        `;
+        
+        // Numéros de page
+        for (let i = 1; i <= totalPages; i++) {
+          pagination.innerHTML += `
+            <li class="page-item ${i === 1 ? 'active' : ''}">
+              <a class="page-link" href="#" data-page="${i}">${i}</a>
+            </li>
+          `;
         }
-    
-        // Fonction pour initialiser la pagination
-        function initPagination() {
-            const pagination = document.querySelector('.pagination');
-            pagination.innerHTML = `
-                <li class="page-item disabled" id="prev-btn">
-                    <a class="page-link" href="#" aria-label="Previous">&laquo;</a>
-                </li>
-                <li class="page-item active">
-                    <a class="page-link" href="#" data-page="1">1</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#" data-page="2">2</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#" data-page="3">3</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#" data-page="4">4</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#" data-page="5">5</a>
-                </li>
-                <li class="page-item" id="next-btn">
-                    <a class="page-link" href="#" aria-label="Next">&raquo;</a>
-                </li>
-            `;
+        
+        // Bouton Suivant
+        pagination.innerHTML += `
+          <li class="page-item ${totalPages <= 1 ? 'disabled' : ''}" id="next-btn">
+            <a class="page-link" href="#" aria-label="Next">
+              <span>&raquo;</span>
+            </a>
+          </li>
+        `;
+      }
+
+      // Affichage d'une page spécifique
+      function showPage(page) {
+        currentPage = page;
+        const startIndex = (page - 1) * ITEMS_PER_PAGE;
+        const endIndex = startIndex + ITEMS_PER_PAGE;
+        
+        // Masquer tous les éléments
+        allMenuItems.forEach(item => {
+          item.style.display = 'none';
+          item.classList.remove('active-item');
+        });
+        
+        // Afficher seulement les éléments de la page courante
+        const itemsToShow = getFilteredItems().slice(startIndex, endIndex);
+        itemsToShow.forEach(item => {
+          item.style.display = 'block';
+          item.classList.add('active-item');
+        });
+        
+        updatePagination();
+      }
+
+      // Mise à jour de l'état de la pagination
+      function updatePagination() {
+        const filteredItems = getFilteredItems();
+        const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);
+        const pageItems = document.querySelectorAll('.page-item');
+        
+        // Désactiver les boutons si nécessaire
+        document.getElementById('prev-btn').classList.toggle('disabled', currentPage === 1);
+        document.getElementById('next-btn').classList.toggle('disabled', currentPage === totalPages);
+        
+        // Mettre à jour les numéros de page actifs
+        pageItems.forEach(item => {
+          const pageLink = item.querySelector('.page-link');
+          if (pageLink && pageLink.dataset.page) {
+            item.classList.toggle('active', parseInt(pageLink.dataset.page) === currentPage);
+          }
+        });
+      }
+
+      // Obtenir les éléments filtrés
+      function getFilteredItems() {
+        if (currentFilter === '*') {
+          return allMenuItems;
         }
-    
-        // Fonction pour obtenir les éléments visibles (filtrés)
-        function getVisibleItems() {
+        return Array.from(document.querySelectorAll(`.all${currentFilter} .box`));
+      }
+
+      // Configuration des écouteurs d'événements
+      function setupEventListeners() {
+        // Pagination
+        document.querySelector('.pagination').addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = e.target.closest('.page-link');
+          if (!target) return;
+          
+          if (target.parentElement.id === 'prev-btn') {
+            if (currentPage > 1) showPage(currentPage - 1);
+          } else if (target.parentElement.id === 'next-btn') {
+            const filteredItems = getFilteredItems();
+            const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);
+            if (currentPage < totalPages) showPage(currentPage + 1);
+          } else if (target.dataset.page) {
+            showPage(parseInt(target.dataset.page));
+          }
+        });
+        
+        // Filtres
+        document.querySelectorAll('.filters_menu li').forEach(item => {
+          item.addEventListener('click', function() {
+            document.querySelectorAll('.filters_menu li').forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+            
+            currentFilter = this.getAttribute('data-filter');
+            currentPage = 1;
+            
             if (currentFilter === '*') {
-                return allItems;
+              document.querySelectorAll('.all').forEach(el => el.classList.remove('filtered-out'));
+            } else {
+              document.querySelectorAll('.all').forEach(el => {
+                el.classList.toggle('filtered-out', !el.classList.contains(currentFilter.substring(1)));
+              });
             }
-            return Array.from(document.querySelectorAll(`.all${currentFilter} .box`));
-        }
-    
-        // Fonction pour mettre à jour la pagination
-        function updatePagination() {
-            const visibleItems = getVisibleItems();
-            const totalPages = Math.ceil(visibleItems.length / ITEMS_PER_PAGE);
-            const pageItems = document.querySelectorAll('.page-item');
             
-            // Mettre à jour les boutons précédent/suivant
-            document.getElementById('prev-btn').classList.toggle('disabled', currentPage === 1);
-            document.getElementById('next-btn').classList.toggle('disabled', currentPage === totalPages);
+            showPage(1);
+          });
+        });
+        
+        // Panier
+        let cartCount = 0;
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+          button.addEventListener('click', function(e) {
+            e.preventDefault();
+            cartCount++;
+            document.getElementById('cart-count').textContent = cartCount;
+            document.getElementById('cart-count').style.display = 'flex';
             
-            // Mettre à jour les numéros de page actifs
-            pageItems.forEach(item => {
-                const pageLink = item.querySelector('.page-link');
-                if (pageLink && pageLink.dataset.page) {
-                    const pageNum = parseInt(pageLink.dataset.page);
-                    item.classList.toggle('active', pageNum === currentPage);
-                    item.style.display = (pageNum <= totalPages || pageLink.textContent === '»' || pageLink.textContent === '«') ? '' : 'none';
-                }
-            });
-        }
-    
-        // Configuration des écouteurs d'événements
-        function setupEventListeners() {
-            // Pagination
-            document.querySelector('.pagination').addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = e.target.closest('.page-link');
-                if (!target) return;
-                
-                if (target.parentElement.id === 'prev-btn') {
-                    if (currentPage > 1) showPage(currentPage - 1);
-                } else if (target.parentElement.id === 'next-btn') {
-                    const visibleItems = getVisibleItems();
-                    const totalPages = Math.ceil(visibleItems.length / ITEMS_PER_PAGE);
-                    if (currentPage < totalPages) showPage(currentPage + 1);
-                } else if (target.dataset.page) {
-                    showPage(parseInt(target.dataset.page));
-                }
-            });
-            
-            // Filtres
-            document.querySelectorAll('.filters_menu li').forEach(item => {
-                item.addEventListener('click', function() {
-                    document.querySelectorAll('.filters_menu li').forEach(i => i.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    currentFilter = this.getAttribute('data-filter');
-                    currentPage = 1;
-                    
-                    if (currentFilter === '*') {
-                        document.querySelectorAll('.all').forEach(el => el.classList.remove('filtered-out'));
-                        document.querySelector('.pagination-container').style.display = 'block';
-                    } else {
-                        document.querySelectorAll('.all').forEach(el => {
-                            el.classList.toggle('filtered-out', !el.classList.contains(currentFilter.substring(1)));
-                        });
-                        document.querySelector('.pagination-container').style.display = 'none';
-                    }
-                    
-                    showPage(1);
-                });
-            });
-            
-            // Panier
-            let cartCount = 0;
-            document.querySelectorAll('.add-to-cart').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    cartCount++;
-                    const counter = document.getElementById('cart-count');
-                    counter.textContent = cartCount;
-                    counter.style.display = 'flex';
-                    
-                    // Animation
-                    this.querySelector('svg').style.transform = 'scale(1.2)';
-                    setTimeout(() => {
-                        this.querySelector('svg').style.transform = 'scale(1)';
-                    }, 200);
-                });
-            });
-        }
+            // Animation d'ajout au panier
+            const item = this.closest('.box');
+            item.style.transform = 'scale(0.95)';
+            setTimeout(() => item.style.transform = 'scale(1)', 200);
+          });
+        });
+      }
     });
-    </script>
+  </script>
 </body>
 </html>
