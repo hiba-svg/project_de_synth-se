@@ -34,17 +34,25 @@
                     $placeholders = implode(',', array_fill(0, count(array_keys($cart_data)), '?'));
 
                     if (! empty($placeholders)) {
-                        $stmt = $pdo->prepare("
-                            SELECT id, name, description, price, discount, image_url
-                            FROM menu_items
-                            WHERE id IN ($placeholders)
-                        ");
+                        $stmt = $mysqli->prepare("
+    SELECT id, name, description, price, discount, image_url
+    FROM menu_items
+    WHERE id IN ($placeholders)
+");
+
+                // Bind parameters explicitly (if needed) or execute directly if placeholders are safely generated
                         $stmt->execute(array_keys($cart_data));
-                        $menu_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                // Fetch all rows using mysqli
+                        $menu_items = [];
+                        $result     = $stmt->get_result();
+                        while ($row = $result->fetch_assoc()) {
+                            $menu_items[] = $row;
+                        }
 
                         // Build cart items with full details
                         foreach ($menu_items as $item) {
-                            $quantity   = $cart_data[$item['id']];
+                            $quantity         = $cart_data[$item['id']];
                             $discounted_price = $item['price'];
                             if ($item['discount'] > 0) {
                                 $discounted_price = $item['price'] * (1 - $item['discount'] / 100);
@@ -122,7 +130,7 @@
                                         <?php
                                             // Change the free delivery threshold here:
                                             $delivery_fee = ($cart_total > 250) ? 0 : 20;
-                                            echo ($delivery_fee > 0) ? number_format($delivery_fee, 2) . ' DH' : 'Gratuit';
+                                            echo($delivery_fee > 0) ? number_format($delivery_fee, 2) . ' DH' : 'Gratuit';
                                         ?>
                                     </span>
                                 </div>

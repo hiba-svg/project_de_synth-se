@@ -27,46 +27,59 @@
             <div class="filters-content">
                 <div class="row grid">
                     <?php
-                    require_once 'db.php';
+                        require_once 'db.php';
 
-                    // Fetch all menu items with their corresponding category names and calculate discounted price
-                    $stmt = $pdo->query("
-                        SELECT 
-                            mi.id, 
-                            mi.name AS item_name, 
-                            mi.description, 
-                            mi.price, 
-                            mi.discount, 
-                            mi.image_url, 
-                            c.name AS category_name,
-                            mi.price - (mi.price * mi.discount / 100) AS discounted_price
-                        FROM 
-                            menu_items mi
-                        LEFT JOIN 
-                            categories c 
-                        ON 
-                            mi.category_id = c.id
-                    ");
-                    $menuItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        // Fetch all menu items with their corresponding category names and calculate discounted price
+                        $query = "
+    SELECT
+        mi.id,
+        mi.name AS item_name,
+        mi.description,
+        mi.price,
+        mi.discount,
+        mi.image_url,
+        c.name AS category_name,
+        mi.price - (mi.price * mi.discount / 100) AS discounted_price
+    FROM
+        menu_items mi
+    LEFT JOIN
+        categories c
+    ON
+        mi.category_id = c.id
+";
 
-                    foreach ($menuItems as $item):
-                        // Sanitize category name for use in HTML classes
-                        $sanitizedCategoryName = strtolower(str_replace(' ', '-', $item['category_name'] ?? 'uncategorized'));
-                    ?>
-                        <div class="col-sm-6 col-lg-4 all <?php echo htmlspecialchars($sanitizedCategoryName); ?>">
-                            <div class="box" data-id="<?php echo htmlspecialchars($item['id']); ?>">
-                                <div>
-                                    <div class="img-box">
-                                        <img src="<?php echo htmlspecialchars($item['image_url']); ?>" alt="<?php echo htmlspecialchars($item['item_name']); ?>" />
-                                    </div>
-                                    <div class="detail-box">
-                                        <h5><?php echo htmlspecialchars($item['item_name']); ?></h5>
-                                        <p><?php echo htmlspecialchars($item['description']); ?></p>
-                                        <div class="options">
-                                            <?php if ($item['discount'] > 0): ?>
-                                                <h6 class="text-light"><?php echo htmlspecialchars(number_format($item['discounted_price'], 2)); ?> DH</h6>
-                                                <h6 class="text-danger"><del><?php echo htmlspecialchars(number_format($item['price'], 2)); ?> DH</del></h6>
-                                            <?php else: ?>
+                        $result = $mysqli->query($query);
+
+                        if ($result) {
+                            // Fetch all rows as an associative array
+                            $menuItems = [];
+                            while ($row = $result->fetch_assoc()) {
+                                $menuItems[] = $row;
+                            }
+                        } else {
+                            // Log the error and return an empty array
+                            error_log("Error fetching menu items: " . $mysqli->error);
+                            $menuItems = [];
+                        }
+
+                        foreach ($menuItems as $item):
+                            // Sanitize category name for use in HTML classes
+                            $sanitizedCategoryName = strtolower(str_replace(' ', '-', $item['category_name'] ?? 'uncategorized'));
+                        ?>
+		                        <div class="col-sm-6 col-lg-4 all <?php echo htmlspecialchars($sanitizedCategoryName); ?>">
+		                            <div class="box" data-id="<?php echo htmlspecialchars($item['id']); ?>">
+		                                <div>
+		                                    <div class="img-box">
+		                                        <img src="<?php echo htmlspecialchars($item['image_url']); ?>" alt="<?php echo htmlspecialchars($item['item_name']); ?>" />
+		                                    </div>
+		                                    <div class="detail-box">
+		                                        <h5><?php echo htmlspecialchars($item['item_name']); ?></h5>
+		                                        <p><?php echo htmlspecialchars($item['description']); ?></p>
+		                                        <div class="options">
+		                                            <?php if ($item['discount'] > 0): ?>
+		                                                <h6 class="text-light"><?php echo htmlspecialchars(number_format($item['discounted_price'], 2)); ?> DH</h6>
+		                                                <h6 class="text-danger"><del><?php echo htmlspecialchars(number_format($item['price'], 2)); ?> DH</del></h6>
+		                                            <?php else: ?>
                                                 <h6><?php echo htmlspecialchars(number_format($item['price'], 2)); ?> DH</h6>
                                             <?php endif; ?>
                                             <button class="add-to-cart" onclick="addToCart(<?php echo htmlspecialchars($item['id']); ?>)">

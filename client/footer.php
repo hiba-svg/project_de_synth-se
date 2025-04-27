@@ -1,4 +1,5 @@
 <?php
+
     require_once 'db.php';
 
     /**
@@ -7,13 +8,20 @@
      */
     function getFooterSettings()
     {
-        global $pdo;
-        try {
-            $stmt     = $pdo->query("SELECT * FROM footer LIMIT 1");
-            $settings = $stmt->fetch(PDO::FETCH_ASSOC);
+        global $mysqli;
+
+        // Execute the query
+        $query  = "SELECT * FROM footer LIMIT 1";
+        $result = $mysqli->query($query);
+
+        if ($result) {
+            // Fetch a single row as an associative array
+            $settings = $result->fetch_assoc();
             return $settings ? array_map('htmlspecialchars', $settings) : [];
-        } catch (PDOException $e) {
-            die("Erreur lors de la récupération des paramètres du pied de page : " . $e->getMessage());
+        } else {
+            // Log the error and return an empty array
+            error_log("Erreur lors de la récupération des paramètres du pied de page : " . $mysqli->error);
+            return [];
         }
     }
 

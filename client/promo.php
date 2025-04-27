@@ -4,9 +4,24 @@
 
     function getPromotions()
     {
-        global $pdo;
-        $stmt = $pdo->query("SELECT * FROM promotions ORDER BY day_of_week");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        global $mysqli;
+
+        // Execute the query
+        $query  = "SELECT * FROM promotions ORDER BY day_of_week";
+        $result = $mysqli->query($query);
+
+        if ($result) {
+            // Fetch all rows as an associative array
+            $promotions = [];
+            while ($row = $result->fetch_assoc()) {
+                $promotions[] = $row;
+            }
+            return $promotions;
+        } else {
+            // Log the error and return an empty array
+            error_log("Error fetching promotions: " . $mysqli->error);
+            return [];
+        }
     }
 
     $promotions = getPromotions();
@@ -22,7 +37,7 @@ if (! empty($currentDayPromotions)): ?>
         <?php foreach ($currentDayPromotions as $promo): ?>
             <div class="promo-card" data-day="<?php echo htmlspecialchars($promo['day_of_week']); ?>">
                 <h2><?php echo htmlspecialchars($promo['title']); ?></h2>
-                <p><strong>Jour:</strong>                                                                                                                                                                                                                                                                                                                                                                                  <?php echo htmlspecialchars($promo['day_name']); ?></p>
+                <p><strong>Jour:</strong>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             <?php echo htmlspecialchars($promo['day_name']); ?></p>
                 <?php
                     $description = str_replace(
                         '{highlight}',

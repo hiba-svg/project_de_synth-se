@@ -19,7 +19,7 @@
         } else {
             try {
                 // Insert reservation into the database
-                $stmt = $pdo->prepare("
+                $stmt = $mysqli->prepare("
                 INSERT INTO reservations (name, phone, email, guests, reservation_date)
                 VALUES (:name, :phone, :email, :guests, :reservation_date)
             ");

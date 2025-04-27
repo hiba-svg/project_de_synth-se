@@ -1,14 +1,25 @@
 <?php
+
     require_once 'db.php';
 
     function getMenuItems()
     {
-        global $pdo;
-        try {
-            $stmt = $pdo->query("SELECT *, price - (price * discount / 100) AS discounted_price FROM menu_items ORDER BY sales_count LIMIT 9");
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            error_log("Query failed: " . $e->getMessage());
+        global $mysqli;
+
+        // Execute the query
+        $query  = "SELECT *, price - (price * discount / 100) AS discounted_price FROM menu_items ORDER BY sales_count LIMIT 9";
+        $result = $mysqli->query($query);
+
+        if ($result) {
+            // Fetch all rows as an associative array
+            $menuItems = [];
+            while ($row = $result->fetch_assoc()) {
+                $menuItems[] = $row;
+            }
+            return $menuItems;
+        } else {
+            // Log the error and return an empty array
+            error_log("Query failed: " . $mysqli->error);
             return [];
         }
     }

@@ -4,9 +4,24 @@
 
     function getTopMenuItems()
     {
-        global $pdo;
-        $stmt = $pdo->query("SELECT * FROM menu_items ORDER BY created_at DESC LIMIT 3");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        global $mysqli;
+
+        // Execute the query
+        $query  = "SELECT * FROM menu_items ORDER BY created_at DESC LIMIT 3";
+        $result = $mysqli->query($query);
+
+        if ($result) {
+            // Fetch all rows as an associative array
+            $topMenuItems = [];
+            while ($row = $result->fetch_assoc()) {
+                $topMenuItems[] = $row;
+            }
+            return $topMenuItems;
+        } else {
+            // Log the error and return an empty array
+            error_log("Error fetching top menu items: " . $mysqli->error);
+            return [];
+        }
     }
 
     $topMenuItems = getTopMenuItems();

@@ -1,15 +1,30 @@
 <?php
 
-    require_once 'db.php';
+require_once 'db.php';
 
-    function getTestimonials()
-    {
-        global $pdo;
-        $stmt = $pdo->query("SELECT * FROM testimonials");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+function getTestimonials()
+{
+    global $mysqli;
+
+    // Execute the query
+    $query  = "SELECT * FROM testimonials";
+    $result = $mysqli->query($query);
+
+    if ($result) {
+        // Fetch all rows as an associative array
+        $testimonials = [];
+        while ($row = $result->fetch_assoc()) {
+            $testimonials[] = $row;
+        }
+        return $testimonials;
+    } else {
+        // Log the error and return an empty array
+        error_log("Error fetching testimonials: " . $mysqli->error);
+        return [];
     }
+}
 
-    $testimonials = getTestimonials();
+$testimonials = getTestimonials();
 ?>
 
 <section class="client_section layout_padding-bottom">

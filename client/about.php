@@ -25,12 +25,12 @@
 
                             function getAboutContent()
                             {
-                                global $pdo;
-                                try {
-                                    $stmt = $pdo->query("SELECT * FROM about LIMIT 1");
-                                    return $stmt->fetch(PDO::FETCH_ASSOC);
-                                } catch (PDOException $e) {
-                                    error_log("Error fetching about content: " . $e->getMessage());
+                                global $mysqli;
+                                $stmt = $mysqli->query("SELECT * FROM about LIMIT 1");
+                                if ($stmt) {
+                                    return $stmt->fetch_assoc();
+                                } else {
+                                    error_log("Error fetching about content: " . $mysqli->error);
                                     return [];
                                 }
                             }

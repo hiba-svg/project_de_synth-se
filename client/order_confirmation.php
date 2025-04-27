@@ -23,15 +23,20 @@
                 $order_id = $_GET['order_id'];
                 // Get order details from database
                 require_once 'db.php';
-                $stmt = $pdo->prepare("
+                $stmt = $mysqli->prepare("
                     SELECT o.*, COUNT(oi.id) as item_count
                     FROM orders o
                     LEFT JOIN order_items oi ON o.id = oi.order_id
                     WHERE o.order_id = ?
                     GROUP BY o.id
                 ");
-                $stmt->execute([$order_id]);
-                $order = $stmt->fetch(PDO::FETCH_ASSOC);
+                $stmt->bind_param('i', $order_id);
+                $stmt->execute();
+
+                // Get the result set
+                $result = $stmt->get_result();
+                $order  = $result->fetch_assoc();
+
                 if (! $order) {
                     echo '<div class="text-center">';
                     echo '<h2>Commande introuvable</h2>';
@@ -131,11 +136,17 @@
                     <h4>Résumé de commande</h4>
                     <div class="order-items">
                         <?php
-                            $stmt = $pdo->prepare("
-                            SELECT * FROM order_items WHERE order_id = ?
-                        ");
-                            $stmt->execute([$order['id']]);
-                            $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            $stmt = $mysqli->prepare("SELECT * FROM order_items WHERE order_id = ?");
+                            $stmt->bind_param('i', $order['id']); // 'i' specifies the type (integer)
+                            $stmt->execute();
+
+                            // Get the result set
+                            $result = $stmt->get_result();
+                            $items  = [];
+                            while ($row = $result->fetch_assoc()) {
+                                $items[] = $row;
+                            }
+
                             foreach ($items as $item):
                         ?>
                         <div class="summary-item">

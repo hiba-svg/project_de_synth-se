@@ -32,15 +32,17 @@
                 if (isset($_GET['order_id']) && ! empty($_GET['order_id'])) {
                     $search_order_id = $_GET['order_id'];
 
-                    // Get order details from database
                     require_once 'db.php';
 
-                    $stmt = $pdo->prepare("
-                    SELECT * FROM orders WHERE order_id = ?
-                ");
-                    $stmt->execute([$search_order_id]);
-                    $order = $stmt->fetch(PDO::FETCH_ASSOC);
+                    $stmt = $mysqli->prepare("
+    SELECT * FROM orders WHERE order_id = ?
+");
 
+                    $stmt->bind_param('i', $search_order_id);
+                    $stmt->execute();
+
+                    $result = $stmt->get_result();
+                    $order  = $result->fetch_assoc();
                     if ($order) {
                     ?>
                         <div class="order-details">
@@ -123,11 +125,19 @@
                             <h4>Résumé de commande</h4>
                             <div class="order-items">
                                 <?php
-                                    $stmt = $pdo->prepare("
-                                    SELECT * FROM order_items WHERE order_id = ?
-                                ");
-                                            $stmt->execute([$order['id']]);
-                                            $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                    $stmt = $mysqli->prepare("
+    SELECT * FROM order_items WHERE order_id = ?
+");
+
+                                            $stmt->bind_param('i', $order['id']);
+                                            $stmt->execute();
+
+                                            $result = $stmt->get_result();
+                                            $items  = [];
+
+                                            while ($row = $result->fetch_assoc()) {
+                                                $items[] = $row;
+                                            }
 
                                             foreach ($items as $item):
                                         ?>

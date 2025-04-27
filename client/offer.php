@@ -1,15 +1,30 @@
 <?php
 
-    require_once 'db.php';
+require_once 'db.php';
 
-    function getOffers()
-    {
-        global $pdo;
-        $stmt = $pdo->query("SELECT * FROM menu_items where discount > 0 ORDER BY discount DESC LIMIT 4");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+function getOffers()
+{
+    global $mysqli;
+
+    // Execute the query
+    $query  = "SELECT * FROM menu_items WHERE discount > 0 ORDER BY discount DESC LIMIT 4";
+    $result = $mysqli->query($query);
+
+    if ($result) {
+        // Fetch all rows as an associative array
+        $offers = [];
+        while ($row = $result->fetch_assoc()) {
+            $offers[] = $row;
+        }
+        return $offers;
+    } else {
+        // Log the error and return an empty array
+        error_log("Error fetching offers: " . $mysqli->error);
+        return [];
     }
+}
 
-    $offers = getOffers();
+$offers = getOffers();
 ?>
 <section class="offer_section layout_padding-bottom">
     <div class="container">

@@ -34,9 +34,13 @@ switch ($input['action']) {
             // Check if product exists in database before adding to cart
             require_once 'db.php';
 
-            $stmt = $pdo->prepare("SELECT id, price FROM menu_items WHERE id = ?");
-            $stmt->execute([$product_id]);
-            $product = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt = $mysqli->prepare("SELECT id, price FROM menu_items WHERE id = ?");
+            $stmt->bind_param('i', $product_id); // 'i' specifies the type (integer)
+            $stmt->execute();
+
+// Get the result set
+            $result  = $stmt->get_result();
+            $product = $result->fetch_assoc(); // Fetch a single row as an associative array
 
             if (! $product) {
                 echo json_encode(['success' => false, 'message' => 'Product not found']);
