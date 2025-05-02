@@ -1,11 +1,16 @@
 <?php include_once 'header.php'; ?>
+<!--Le code récupère les éléments du menu depuis la base de données en exécutant une requête SQL. Il sélectionne les informations telles que le nom, la description, le prix, la remise, l'image, et la catégorie pour chaque élément du menu.
+
+Ces éléments sont ensuite affichés dans des boîtes avec une option d'ajout au panier (via la fonction addToCart()).
+
+Si un élément a une remise, son prix est affiché avec une ligne barrée pour indiquer l'ancien prix et un prix réduit pour le prix après remise.Le code utilise Isotope.js pour activer le filtrage des éléments du menu par catégorie. Chaque catégorie d'éléments du menu peut être filtrée en cliquant sur un bouton de filtre correspondant, ce qui réarrange les éléments du menu en fonction du filtre sélectionné.-->
 
 <body class="sub_page show-pagination">
     <div class="hero_area">
-       <div class="bg-box" style="background: linear-gradient(135deg, #030303, #696868)">
+        <div class="bg-box" style="background: linear-gradient(135deg, #030303, #696868)">
         </div>
 
-        <!-- Header Section -->
+
         <header class="header_section">
             <div class="container">
                 <?php include_once 'nav.php'; ?>
@@ -13,24 +18,24 @@
         </header>
     </div>
 
-    <!-- Food Section -->
+
     <section class="food_section layout_padding">
         <div class="container">
             <div class="heading_container heading_center">
                 <h2>Notre Menu</h2>
             </div>
 
-            <!-- Category Filters -->
+
             <?php include_once 'category_filter.php'; ?>
 
-            <!-- Menu Items -->
+
             <div class="filters-content">
                 <div class="row grid">
                     <?php
-                        require_once 'db.php';
+                    require_once 'db.php';
 
-                        // Fetch all menu items with their corresponding category names and calculate discounted price
-                        $query = "
+
+                    $query = "
     SELECT
         mi.id,
         mi.name AS item_name,
@@ -48,38 +53,38 @@
         mi.category_id = c.id
 ";
 
-                        $result = $mysqli->query($query);
+                    $result = $mysqli->query($query);
 
-                        if ($result) {
-                            // Fetch all rows as an associative array
-                            $menuItems = [];
-                            while ($row = $result->fetch_assoc()) {
-                                $menuItems[] = $row;
-                            }
-                        } else {
-                            // Log the error and return an empty array
-                            error_log("Error fetching menu items: " . $mysqli->error);
-                            $menuItems = [];
+                    if ($result) {
+
+                        $menuItems = [];
+                        while ($row = $result->fetch_assoc()) {
+                            $menuItems[] = $row;
                         }
+                    } else {
 
-                        foreach ($menuItems as $item):
-                            // Sanitize category name for use in HTML classes
-                            $sanitizedCategoryName = strtolower(str_replace(' ', '-', $item['category_name'] ?? 'uncategorized'));
-                        ?>
-		                        <div class="col-sm-6 col-lg-4 all <?php echo htmlspecialchars($sanitizedCategoryName); ?>">
-		                            <div class="box" data-id="<?php echo htmlspecialchars($item['id']); ?>">
-		                                <div>
-		                                    <div class="img-box">
-		                                        <img src="<?php echo htmlspecialchars($item['image_url']); ?>" alt="<?php echo htmlspecialchars($item['item_name']); ?>" />
-		                                    </div>
-		                                    <div class="detail-box">
-		                                        <h5><?php echo htmlspecialchars($item['item_name']); ?></h5>
-		                                        <p><?php echo htmlspecialchars($item['description']); ?></p>
-		                                        <div class="options">
-		                                            <?php if ($item['discount'] > 0): ?>
-		                                                <h6 class="text-light"><?php echo htmlspecialchars(number_format($item['discounted_price'], 2)); ?> DH</h6>
-		                                                <h6 class="text-danger"><del><?php echo htmlspecialchars(number_format($item['price'], 2)); ?> DH</del></h6>
-		                                            <?php else: ?>
+                        error_log("Error fetching menu items: " . $mysqli->error);
+                        $menuItems = [];
+                    }
+
+                    foreach ($menuItems as $item):
+
+                        $sanitizedCategoryName = strtolower(str_replace(' ', '-', $item['category_name'] ?? 'uncategorized'));
+                    ?>
+                        <div class="col-sm-6 col-lg-4 all <?php echo htmlspecialchars($sanitizedCategoryName); ?>">
+                            <div class="box" data-id="<?php echo htmlspecialchars($item['id']); ?>">
+                                <div>
+                                    <div class="img-box">
+                                        <img src="<?php echo htmlspecialchars($item['image_url']); ?>" alt="<?php echo htmlspecialchars($item['item_name']); ?>" />
+                                    </div>
+                                    <div class="detail-box">
+                                        <h5><?php echo htmlspecialchars($item['item_name']); ?></h5>
+                                        <p><?php echo htmlspecialchars($item['description']); ?></p>
+                                        <div class="options">
+                                            <?php if ($item['discount'] > 0): ?>
+                                                <h6 class="text-light"><?php echo htmlspecialchars(number_format($item['discounted_price'], 2)); ?> DH</h6>
+                                                <h6 class="text-danger"><del><?php echo htmlspecialchars(number_format($item['price'], 2)); ?> DH</del></h6>
+                                            <?php else: ?>
                                                 <h6><?php echo htmlspecialchars(number_format($item['price'], 2)); ?> DH</h6>
                                             <?php endif; ?>
                                             <button class="add-to-cart" onclick="addToCart(<?php echo htmlspecialchars($item['id']); ?>)">
@@ -98,14 +103,14 @@
 
     <?php include_once 'footer.php'; ?>
 
-    <!-- Scripts -->
+
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/cart.js"></script>
     <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             var grid = document.querySelector('.grid');
             if (!grid) {
                 console.error('Grid element not found!');
@@ -117,25 +122,28 @@
                 layoutMode: 'fitRows'
             });
 
-            // Filter items on button click
+
             var filterButtons = document.querySelectorAll('.filters_menu li');
-            filterButtons.forEach(function (button) {
-                button.addEventListener('click', function () {
+            filterButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
                     var filterValue = this.getAttribute('data-filter');
                     console.log('Filter clicked:', filterValue);
 
-                    iso.arrange({ filter: filterValue });
+                    iso.arrange({
+                        filter: filterValue
+                    });
 
-                    // Remove active class from all buttons
-                    filterButtons.forEach(function (btn) {
+
+                    filterButtons.forEach(function(btn) {
                         btn.classList.remove('active');
                     });
 
-                    // Add active class to the clicked button
+
                     this.classList.add('active');
                 });
             });
         });
     </script>
 </body>
+
 </html>

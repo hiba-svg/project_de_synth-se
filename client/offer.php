@@ -1,24 +1,24 @@
 <?php
-
+//Ce code utilise la méthode query() de MySQLi pour récupérer les éléments du menu ayant une remise (discount > 0), les trie par remise décroissante, puis les affiche dynamiquement avec une boucle foreach en limitant à 4 résultats.Chaque élément est protégé avec htmlspecialchars() pour éviter les failles XSS, et une fonction personnalisée getOffers() est définie pour encapsuler la logique de récupération des offres en base de données.
 require_once 'db.php';
 
 function getOffers()
 {
     global $mysqli;
 
-    // Execute the query
+
     $query  = "SELECT * FROM menu_items WHERE discount > 0 ORDER BY discount DESC LIMIT 4";
     $result = $mysqli->query($query);
 
     if ($result) {
-        // Fetch all rows as an associative array
+
         $offers = [];
         while ($row = $result->fetch_assoc()) {
             $offers[] = $row;
         }
         return $offers;
     } else {
-        // Log the error and return an empty array
+
         error_log("Error fetching offers: " . $mysqli->error);
         return [];
     }
@@ -39,10 +39,10 @@ $offers = getOffers();
                             <h5><?php echo htmlspecialchars($offer['name']); ?></h5>
                             <h6><span><?php echo htmlspecialchars(number_format($offer['discount'], 0)); ?>%</span> Off</h6>
                             <div class="btn-box">
-                                        <button class="btn1" onclick="addToCart(<?php echo htmlspecialchars($offer['id']); ?>)">
-		                                            Commander Maintenant
-		                                        </button>
-                                    </div>
+                                <button class="btn1" onclick="addToCart(<?php echo htmlspecialchars($offer['id']); ?>)">
+                                    Commander Maintenant
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

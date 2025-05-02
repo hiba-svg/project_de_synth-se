@@ -1,40 +1,41 @@
 <?php
-    $current_page = basename($_SERVER['PHP_SELF']);
+//Détermination du titre de la page : Le code utilise basename($_SERVER['PHP_SELF']) pour obtenir le nom du fichier PHP actuel et affecter un titre spécifique à chaque page via une structure switch. Par exemple, si l'utilisateur est sur index.php, le titre sera "Accueil".Affichage du nombre d'articles dans le panier : Le nombre d'articles dans le panier est calculé en utilisant $_COOKIE['cart'] (s'il existe) et en décodant les données JSON pour obtenir la quantité totale d'articles via array_sum(). Ce nombre est affiché à côté de l'icône du panier dans la barre de navigation.
+$current_page = basename($_SERVER['PHP_SELF']);
 
-    $page_title = '';
-    switch ($current_page) {
-        case 'index.php':
-            $page_title = 'Accueil';
-            break;
-        case 'menu.php':
-            $page_title = 'Menu';
-            break;
-        case 'about.php':
-            $page_title = 'A Propos';
-            break;
-        case 'book.php':
-            $page_title = 'Réserver';
-            break;
-        case 'order_status.php':
-            $page_title = 'Status De Commande';
-            break;
-        case 'cart.php':
-            $page_title = 'Cart';
-            break;
-        case 'checkout.php':
-            $page_title = 'Caisse';
-            break;
-        default:
-            $page_title = '';
+$page_title = '';
+switch ($current_page) {
+    case 'index.php':
+        $page_title = 'Accueil';
+        break;
+    case 'menu.php':
+        $page_title = 'Menu';
+        break;
+    case 'about.php':
+        $page_title = 'A Propos';
+        break;
+    case 'book.php':
+        $page_title = 'Réserver';
+        break;
+    case 'order_status.php':
+        $page_title = 'Status De Commande';
+        break;
+    case 'cart.php':
+        $page_title = 'Cart';
+        break;
+    case 'checkout.php':
+        $page_title = 'Caisse';
+        break;
+    default:
+        $page_title = '';
+}
+
+$cart_count = 0;
+if (isset($_COOKIE['cart'])) {
+    $cart_data = json_decode($_COOKIE['cart'], true);
+    if (! empty($cart_data)) {
+        $cart_count = array_sum($cart_data);
     }
-    // Calculate cart count for the icon
-    $cart_count = 0;
-    if (isset($_COOKIE['cart'])) {
-        $cart_data = json_decode($_COOKIE['cart'], true);
-        if (! empty($cart_data)) {
-            $cart_count = array_sum($cart_data);
-        }
-    }
+}
 ?>
 
 <title><?php echo $page_title; ?><?php echo $page_title !== '' ? ' - ' : ''; ?>ELBARAKA</title>
@@ -70,7 +71,7 @@
             <a href="cart.php" class="cart_link">
                 <i class="fa fa-shopping-cart"></i>
                 <?php if ($cart_count >= 0): ?>
-                <span class="cart-count"><?php echo $cart_count; ?></span>
+                    <span class="cart-count"><?php echo $cart_count; ?></span>
                 <?php endif; ?>
             </a>
 
