@@ -1,5 +1,7 @@
 <?php include_once 'header.php'; ?>
 
+<!-- Ce code PHP gère l'affichage et l'interaction du panier d’achat en ligne en utilisant json_decode() pour lire les données du panier depuis un cookie, et mysqli::prepare() avec des requêtes SQL dynamiques pour récupérer les détails des produits depuis la base de données. Il utilise aussi JavaScript avec fetch() pour mettre à jour dynamiquement le panier (ajouter, supprimer, vider) via des requêtes AJAX vers un script update_cart.php. -->
+
 <body class="sub_page">
     <div class="hero_area">
         <div class="bg-box" style="background: linear-gradient(135deg, #030303, #696868)">

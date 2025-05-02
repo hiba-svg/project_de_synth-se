@@ -1,5 +1,7 @@
 <?php include_once 'header.php'; ?>
 
+<!-- Ce code PHP gère une page de finalisation de commande (checkout) en utilisant les méthodes $_COOKIE pour récupérer les articles du panier, $_POST pour traiter les données soumises par le formulaire, et mysqli (avec prepare, bind_param, execute) pour interagir de manière sécurisée avec la base de données. Il utilise également la méthode setcookie() pour vider le panier après commande, et header() pour rediriger l’utilisateur vers la page de confirmation après enregistrement des données. -->
+
 <body class="sub_page">
     <div class="hero_area">
         <div class="bg-box" style="background: linear-gradient(135deg, #030303, #696868)">

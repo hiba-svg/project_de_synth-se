@@ -1,4 +1,7 @@
 <?php include_once 'header.php'?>
+
+<!-- Ce code PHP permet d’afficher une page de réservation en utilisant include_once pour intégrer des fichiers réutilisables comme l’en-tête, le menu (nav.php), le formulaire de réservation (table_order.php) et le pied de page. Il intègre également une carte Google Maps grâce à une balise <iframe> pour localiser le restaurant, et utilise du JavaScript (jQuery, Bootstrap, Owl Carousel, etc.) pour améliorer l’interactivité de la page. -->
+
 <body class="sub_page">
 
   <div class="hero_area">

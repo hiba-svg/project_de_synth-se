@@ -1,4 +1,7 @@
 <?php
+
+// Ce code utilise la méthode mysqli->query() pour exécuter une requête SQL permettant de récupérer les catégories liées aux produits dans la base de données, puis la méthode fetch_assoc() pour parcourir les résultats et construire un tableau PHP des catégories. Ensuite, il génère dynamiquement une liste HTML <ul> avec des éléments <li> contenant un attribut data-filter, utile pour filtrer les produits affichés par catégorie via des bibliothèques comme Isotope.js.
+
     require_once 'db.php';
 
     function getCategories()

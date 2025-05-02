@@ -1,5 +1,7 @@
 <?php include_once 'header.php'; ?>
 
+<!-- Ce code PHP affiche dynamiquement une section "À propos" d'un site web en utilisant la méthode mysqli::query() pour récupérer les données depuis une base de données MySQL, et les fonctions htmlspecialchars() et nl2br() pour sécuriser et formater le contenu affiché. Il utilise également l’inclusion de fichiers avec include_once pour intégrer les éléments communs du site comme l’en-tête, la navigation et le pied de page. -->
+
 <body class="sub_page">
     <div class="hero_area">
         <div class="bg-box" style="background: linear-gradient(135deg, #030303, #696868)">

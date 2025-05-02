@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+
+<!-- Ce code HTML configure l'en-tête de la page en ajoutant des balises meta pour la compatibilité mobile et le SEO, et en incluant des fichiers CSS externes pour le design (Bootstrap, Owl Carousel, Nice Select, Font Awesome). Les fichiers sont intégrés via des balises <link> pour personnaliser l'apparence et les fonctionnalités de la page. -->
+
   <head>
     <!-- Basic -->
     <meta charset="utf-8" />

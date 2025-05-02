@@ -1,5 +1,7 @@
 <?php
 
+// Ce code PHP récupère les éléments du menu les plus populaires depuis la base de données à l'aide d'une requête SQL qui applique un calcul de prix après remise, puis affiche ces éléments dans une section HTML à l'aide de la méthode fetch_assoc() pour obtenir les résultats sous forme de tableau associatif. Il utilise également des boucles foreach pour afficher chaque élément du menu, incluant les informations comme l'image, la description et le prix avec ou sans remise, et permet d'ajouter des articles au panier via un bouton d'action JavaScript.
+
     require_once 'db.php';
 
     function getMenuItems()

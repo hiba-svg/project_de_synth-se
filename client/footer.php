@@ -1,5 +1,7 @@
 <?php
 
+// Ce code PHP récupère les paramètres du pied de page depuis une base de données et les affiche dynamiquement dans le HTML, en utilisant des conditions if pour afficher les informations disponibles (adresse, téléphone, email, réseaux sociaux). Les méthodes fetch_assoc() et array_map('htmlspecialchars', $settings) sont utilisées pour sécuriser et afficher les données, tandis que error_log() sert à enregistrer les erreurs.
+
     require_once 'db.php';
 
     /**
