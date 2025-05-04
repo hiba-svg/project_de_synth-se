@@ -1,4 +1,4 @@
-<?php include_once 'header.php'?>
+<?php include_once 'header.php' ?>
 
 <!-- Ce code PHP permet d’afficher une page de réservation en utilisant include_once pour intégrer des fichiers réutilisables comme l’en-tête, le menu (nav.php), le formulaire de réservation (table_order.php) et le pied de page. Il intègre également une carte Google Maps grâce à une balise <iframe> pour localiser le restaurant, et utilise du JavaScript (jQuery, Bootstrap, Owl Carousel, etc.) pour améliorer l’interactivité de la page. -->
 
@@ -6,11 +6,11 @@
 
   <div class="hero_area">
     <div class="bg-box" style="background: linear-gradient(135deg, #030303, #696868)">
-        </div>
+    </div>
     <!-- header section strats -->
     <header class="header_section">
       <div class="container">
-        <?php include_once 'nav.php'?>
+        <?php include_once 'nav.php' ?>
       </div>
     </header>
     <!-- end header section -->
@@ -25,7 +25,7 @@
         </h2>
       </div>
       <div class="row">
-        <?php include_once 'table_order.php'?>
+        <?php include_once 'table_order.php' ?>
         <div class="map_container ">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3386.0639451322504!2d-4.430351425003927!3d31.932021226689887!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd984b0010e31a47%3A0x3a80500fd17a60d6!2zU25hY2sgQWwgQmFyYWthIHwg2LPZhtin2YMg2KfZhNio2LHZg9ip!5e0!3m2!1sfr!2sma!4v1743861943172!5m2!1sfr!2sma"
@@ -33,14 +33,14 @@
             height=345px ;
             borderradius=10px ;
             overflow:hidden ;></iframe>
-          </div>
+        </div>
       </div>
     </div>
   </section>
   <!-- end book section -->
 
   <!-- footer section -->
-  <?php include_once 'footer.php'?>
+  <?php include_once 'footer.php' ?>
   <!-- footer section -->
 
   <!-- jQery -->
@@ -61,4 +61,5 @@
   <script src="js/custom.js"></script>
 
 </body>
+
 </html>

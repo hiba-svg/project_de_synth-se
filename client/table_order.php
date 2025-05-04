@@ -18,18 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo '<p class="error">Adresse e-mail invalide.</p>';
     } else {
         try {
-
-            $stmt = $mysqli->prepare("
-                INSERT INTO reservations (name, phone, email, guests, reservation_date)
-                VALUES (:name, :phone, :email, :guests, :reservation_date)
-            ");
-            $stmt->execute([
-                ':name'             => $name,
-                ':phone'            => $phone,
-                ':email'            => $email,
-                ':guests'           => $guests,
-                ':reservation_date' => $reservation_date,
-            ]);
+            $stmt = $mysqli->prepare("INSERT INTO reservations (name, phone, email, guests, reservation_date) VALUES (?, ?, ?, ?, ?)");
+            $stmt->execute([$name, $phone, $email, $guests, $reservation_date]);
 
             echo '<p class="success">Votre réservation a été enregistrée avec succès!</p>';
         } catch (PDOException $e) {
