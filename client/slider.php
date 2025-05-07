@@ -1,30 +1,30 @@
 <?php
-//Ce code utilise la fonction getTopMenuItems() avec mysqli->query() et fetch_assoc() pour récupérer les 3 derniers plats ajoutés à la base de données, triés par date de création (ORDER BY created_at DESC LIMIT 3). Ensuite, une boucle foreach affiche dynamiquement ces plats dans un carousel Bootstrap, avec leur nom, description, image, et un bouton "Commander Maintenant" qui appelle la fonction JavaScript addToCart()
-require_once 'db.php';
 
-function getTopMenuItems()
-{
-    global $mysqli;
+    require_once 'db.php';
 
+    function getTopMenuItems()
+    {
+        global $mysqli;
 
-    $query  = "SELECT * FROM menu_items ORDER BY created_at DESC LIMIT 3";
-    $result = $mysqli->query($query);
+        // Execute the query
+        $query  = "SELECT * FROM menu_items ORDER BY created_at DESC LIMIT 3";
+        $result = $mysqli->query($query);
 
-    if ($result) {
-
-        $topMenuItems = [];
-        while ($row = $result->fetch_assoc()) {
-            $topMenuItems[] = $row;
+        if ($result) {
+            // Fetch all rows as an associative array
+            $topMenuItems = [];
+            while ($row = $result->fetch_assoc()) {
+                $topMenuItems[] = $row;
+            }
+            return $topMenuItems;
+        } else {
+            // Log the error and return an empty array
+            error_log("Error fetching top menu items: " . $mysqli->error);
+            return [];
         }
-        return $topMenuItems;
-    } else {
-
-        error_log("Error fetching top menu items: " . $mysqli->error);
-        return [];
     }
-}
 
-$topMenuItems = getTopMenuItems();
+    $topMenuItems = getTopMenuItems();
 ?>
 <section class="slider_section">
     <div id="customCarousel1" class="carousel slide" data-ride="carousel">
@@ -39,8 +39,8 @@ $topMenuItems = getTopMenuItems();
                                     <p><?php echo htmlspecialchars($item['description']); ?></p>
                                     <div class="btn-box">
                                         <button class="btn1" onclick="addToCart(<?php echo htmlspecialchars($item['id']); ?>)">
-                                            Commander Maintenant
-                                        </button>
+		                                            Commander Maintenant
+		                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -53,7 +53,7 @@ $topMenuItems = getTopMenuItems();
             <?php endforeach; ?>
         </div>
 
-
+        <!-- Carousel Indicators -->
         <div class="container">
             <ol class="carousel-indicators">
                 <?php foreach ($topMenuItems as $index => $item): ?>

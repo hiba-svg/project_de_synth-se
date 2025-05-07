@@ -1,11 +1,5 @@
 <?php include_once 'header.php'; ?>
 
-<!--Le code récupère les éléments du menu depuis la base de données en exécutant une requête SQL. Il sélectionne les informations telles que le nom, la description, le prix, la remise, l'image, et la catégorie pour chaque élément du menu.
-
-Ces éléments sont ensuite affichés dans des boîtes avec une option d'ajout au panier (via la fonction addToCart()).
-
-Si un élément a une remise, son prix est affiché avec une ligne barrée pour indiquer l'ancien prix et un prix réduit pour le prix après remise.Le code utilise Isotope.js pour activer le filtrage des éléments du menu par catégorie. Chaque catégorie d'éléments du menu peut être filtrée en cliquant sur un bouton de filtre correspondant, ce qui réarrange les éléments du menu en fonction du filtre sélectionné.-->
-
 <body class="sub_page show-pagination">
     <div class="hero_area">
        <div class="bg-box" style="background: linear-gradient(135deg, #030303, #696868)">

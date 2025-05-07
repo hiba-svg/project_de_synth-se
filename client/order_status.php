@@ -1,12 +1,11 @@
-<!--Ce code PHP vérifie le statut d'une commande à l'aide d'un formulaire GET, puis utilise les méthodes prepare(), bind_param() et execute() de mysqli pour interroger les tables orders et order_items en toute sécurité. Ensuite, les données sont affichées avec htmlspecialchars() pour sécuriser les champs, tandis que certains champs sensibles comme le téléphone, l’email ou l’adresse sont partiellement masqués avant affichage-->
 <?php include_once 'header.php'; ?>
 
 <body class="sub_page">
     <div class="hero_area">
-        <div class="bg-box" style="background: linear-gradient(135deg, #030303, #696868)">
+       <div class="bg-box" style="background: linear-gradient(135deg, #030303, #696868)">
         </div>
 
-
+        <!-- Header Section -->
         <header class="header_section">
             <div class="container">
                 <?php include_once 'nav.php'; ?>
@@ -14,7 +13,7 @@
         </header>
     </div>
 
-
+    <!-- Order Status Section -->
     <section class="order_status_section layout_padding">
         <div class="container">
             <div class="heading_container heading_center">
@@ -30,118 +29,118 @@
                 </form>
             </div>
             <?php
-            if (isset($_GET['order_id']) && ! empty($_GET['order_id'])) {
-                $search_order_id = $_GET['order_id'];
+                if (isset($_GET['order_id']) && ! empty($_GET['order_id'])) {
+                    $search_order_id = $_GET['order_id'];
 
-                require_once 'db.php';
+                    require_once 'db.php';
 
-                $stmt = $mysqli->prepare("
+                    $stmt = $mysqli->prepare("
     SELECT * FROM orders WHERE order_id = ?
 ");
 
-                $stmt->bind_param('i', $search_order_id);
-                $stmt->execute();
+                    $stmt->bind_param('i', $search_order_id);
+                    $stmt->execute();
 
-                $result = $stmt->get_result();
-                $order  = $result->fetch_assoc();
-                if ($order) {
-            ?>
-                    <div class="order-details">
-                        <h4>Détails de la Commande</h4>
-                        <div class="order-detail">
-                            <span>Numéro de commande:</span>
-                            <strong><?php echo htmlspecialchars($order['order_id']); ?></strong>
-                        </div>
-                        <div class="order-detail">
-                            <span>Date:</span>
-                            <strong><?php echo date('d/m/Y H:i', strtotime($order['order_date'])); ?></strong>
-                        </div>
-                        <div class="order-detail">
-                            <span>Total:</span>
-                            <strong><?php echo number_format($order['total'], 2); ?> DH</strong>
-                        </div>
-                        <div class="order-detail">
-                            <span>Statut:</span>
-                            <strong><?php echo ucfirst($order['status']); ?></strong>
-                        </div>
-                    </div>
-
-                    <div class="customer-info">
-                        <h4>Informations de livraison</h4>
-                        <div class="info-item">
-                            <div class="info-label">Nom:</div>
-                            <div class="info-value"><?php echo htmlspecialchars($order['full_name']); ?></div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Téléphone:</div>
-                            <div class="info-value">
-                                <?php
-                                $phone = htmlspecialchars($order['phone']);
-                                if (strlen($phone) > 4) {
-                                    $masked_phone = substr($phone, 0, -4) . str_repeat('*', 4);
-                                    echo $masked_phone;
-                                } else {
-                                    echo $phone;
-                                }
-                                ?>
+                    $result = $stmt->get_result();
+                    $order  = $result->fetch_assoc();
+                    if ($order) {
+                    ?>
+                        <div class="order-details">
+                            <h4>Détails de la Commande</h4>
+                            <div class="order-detail">
+                                <span>Numéro de commande:</span>
+                                <strong><?php echo htmlspecialchars($order['order_id']); ?></strong>
+                            </div>
+                            <div class="order-detail">
+                                <span>Date:</span>
+                                <strong><?php echo date('d/m/Y H:i', strtotime($order['order_date'])); ?></strong>
+                            </div>
+                            <div class="order-detail">
+                                <span>Total:</span>
+                                <strong><?php echo number_format($order['total'], 2); ?> DH</strong>
+                            </div>
+                            <div class="order-detail">
+                                <span>Statut:</span>
+                                <strong><?php echo ucfirst($order['status']); ?></strong>
                             </div>
                         </div>
-                        <div class="info-item">
-                            <div class="info-label">Email:</div>
-                            <div class="info-value">
-                                <?php
-                                $email       = htmlspecialchars($order['email']);
-                                $email_parts = explode('@', $email);
-                                if (count($email_parts) == 2) {
-                                    $local_part = $email_parts[0];
-                                    $domain     = $email_parts[1];
-                                    if (strlen($local_part) > 2) {
-                                        $masked_local_part = substr($local_part, 0, 2) . str_repeat('*', strlen($local_part) - 2);
-                                        echo $masked_local_part . '@' . $domain;
-                                    } else {
-                                        echo $email;
-                                    }
-                                } else {
-                                    echo $email;
-                                }
-                                ?>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Adresse:</div>
-                            <div class="info-value">
-                                <?php
-                                $address = htmlspecialchars($order['address']);
-                                if (strlen($address) > 8) {
-                                    echo substr($address, 0, 8) . '...';
-                                } else {
-                                    echo $address;
-                                }
-                                ?>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="order-summary">
-                        <h4>Résumé de commande</h4>
-                        <div class="order-items">
-                            <?php
-                            $stmt = $mysqli->prepare("
+                        <div class="customer-info">
+                            <h4>Informations de livraison</h4>
+                            <div class="info-item">
+                                <div class="info-label">Nom:</div>
+                                <div class="info-value"><?php echo htmlspecialchars($order['full_name']); ?></div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Téléphone:</div>
+                                <div class="info-value">
+                                    <?php
+                                        $phone = htmlspecialchars($order['phone']);
+                                                if (strlen($phone) > 4) {
+                                                    $masked_phone = substr($phone, 0, -4) . str_repeat('*', 4);
+                                                    echo $masked_phone;
+                                                } else {
+                                                    echo $phone;
+                                                }
+                                            ?>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Email:</div>
+                                <div class="info-value">
+                                    <?php
+                                        $email       = htmlspecialchars($order['email']);
+                                                $email_parts = explode('@', $email);
+                                                if (count($email_parts) == 2) {
+                                                    $local_part = $email_parts[0];
+                                                    $domain     = $email_parts[1];
+                                                    if (strlen($local_part) > 2) {
+                                                        $masked_local_part = substr($local_part, 0, 2) . str_repeat('*', strlen($local_part) - 2);
+                                                        echo $masked_local_part . '@' . $domain;
+                                                    } else {
+                                                        echo $email;
+                                                    }
+                                                } else {
+                                                    echo $email;
+                                                }
+                                            ?>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Adresse:</div>
+                                <div class="info-value">
+                                    <?php
+                                        $address = htmlspecialchars($order['address']);
+                                                if (strlen($address) > 8) {
+                                                    echo substr($address, 0, 8) . '...';
+                                                } else {
+                                                    echo $address;
+                                                }
+                                            ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-summary">
+                            <h4>Résumé de commande</h4>
+                            <div class="order-items">
+                                <?php
+                                    $stmt = $mysqli->prepare("
     SELECT * FROM order_items WHERE order_id = ?
 ");
 
-                            $stmt->bind_param('i', $order['id']);
-                            $stmt->execute();
+                                            $stmt->bind_param('i', $order['id']);
+                                            $stmt->execute();
 
-                            $result = $stmt->get_result();
-                            $items  = [];
+                                            $result = $stmt->get_result();
+                                            $items  = [];
 
-                            while ($row = $result->fetch_assoc()) {
-                                $items[] = $row;
-                            }
+                                            while ($row = $result->fetch_assoc()) {
+                                                $items[] = $row;
+                                            }
 
-                            foreach ($items as $item):
-                            ?>
+                                            foreach ($items as $item):
+                                        ?>
                                 <div class="summary-item">
                                     <div class="item-info">
                                         <span class="item-quantity"><?php echo $item['quantity']; ?> ×</span>
@@ -149,35 +148,35 @@
                                     </div>
                                     <div class="item-price"><?php echo number_format($item['total'], 2); ?> DH</div>
                                 </div>
-                            <?php endforeach; ?>
-                        </div>
+                                <?php endforeach; ?>
+                            </div>
 
-                        <div class="summary-totals">
-                            <div class="subtotal">
-                                <span>Sous-total:</span>
-                                <span><?php echo number_format($order['subtotal'], 2); ?> DH</span>
-                            </div>
-                            <div class="delivery-fee">
-                                <span>Frais de livraison:</span>
-                                <span>
-                                    <?php echo ($order['delivery_fee'] > 0) ? number_format($order['delivery_fee'], 2) . ' DH' : 'Gratuit'; ?>
-                                </span>
-                            </div>
-                            <div class="total">
-                                <span>Total:</span>
-                                <span><?php echo number_format($order['total'], 2); ?> DH</span>
+                            <div class="summary-totals">
+                                <div class="subtotal">
+                                    <span>Sous-total:</span>
+                                    <span><?php echo number_format($order['subtotal'], 2); ?> DH</span>
+                                </div>
+                                <div class="delivery-fee">
+                                    <span>Frais de livraison:</span>
+                                    <span>
+                                        <?php echo($order['delivery_fee'] > 0) ? number_format($order['delivery_fee'], 2) . ' DH' : 'Gratuit'; ?>
+                                    </span>
+                                </div>
+                                <div class="total">
+                                    <span>Total:</span>
+                                    <span><?php echo number_format($order['total'], 2); ?> DH</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-            <?php
-                } else {
-                    echo '<div class="text-center">';
-                    echo '<h2>Commande introuvable</h2>';
-                    echo '<p>Nous n\'avons pas pu trouver les détails de votre commande.</p>';
-                    echo '</div>';
-                }
-            }
-            ?>
+                        <?php
+                            } else {
+                                    echo '<div class="text-center">';
+                                    echo '<h2>Commande introuvable</h2>';
+                                    echo '<p>Nous n\'avons pas pu trouver les détails de votre commande.</p>';
+                                    echo '</div>';
+                                }
+                            }
+                        ?>
         </div>
     </section>
 
@@ -191,5 +190,4 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
     <script src="js/custom.js"></script>
 </body>
-
 </html>

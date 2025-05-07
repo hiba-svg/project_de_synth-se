@@ -1,5 +1,4 @@
 <?php
-//Ce code PHP gère l'affichage d'articles de menu paginés et filtrés par catégorie, en utilisant des requêtes SQL et la pagination via l'URL. Il récupère les éléments du menu en fonction de la page et de la catégorie sélectionnée, applique un filtre sur la catégorie, calcule le total d'articles, puis génère le HTML des articles et de la pagination pour l'affichage dynamique.Les méthodes utilisées incluent `mysqli->real_escape_string()` pour sécuriser l'entrée de la catégorie, `mysqli->query()` pour exécuter les requêtes SQL, et la pagination dynamique calculée avec `ceil()` pour déterminer le nombre total de pages. Le tout est renvoyé au format JSON pour une utilisation côté client, avec le HTML des articles et de la pagination inclus.
 
 require_once 'db.php';
 

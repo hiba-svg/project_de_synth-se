@@ -1,7 +1,5 @@
 <?php
 
-// Ce code PHP utilise la méthode query() de l'objet $mysqli pour exécuter une requête SQL qui récupère tous les témoignages depuis la base de données, puis la méthode fetch_assoc() pour lire les résultats ligne par ligne dans un tableau associatif. Ensuite, dans la partie HTML, une boucle foreach est utilisée pour afficher dynamiquement chaque témoignage avec les fonctions htmlspecialchars() pour sécuriser les données affichées.
-
 require_once 'db.php';
 
 function getTestimonials()
