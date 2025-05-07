@@ -305,7 +305,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `password`, `type`, `full_name`, `created_at`) VALUES
 (1, 'admin', '$2y$10$RdbdCLF16UnRHTl0Y0JucOk0dL49QY.6NFJrL1XUWNOXVVqPITMkW', 'admin', 'Hiba', '2025-04-23 05:25:09');
-(1, 'admin', '$2y$10$RdbdCLF16UnRHTl0Y0JucOk0dL49QY.6NFJrL1XUWNOXVVqPITMkW', 'admin', 'salma', '2025-04-23 05:25:09');
+(2, 'user', '$2y$10$RdbdCLF16UnRHTl0Y0JucOk0dL49QY.6NFJrL1XUWNOXVVqPITMkW', 'admin', 'salma', '2025-04-23 05:25:09');
 
 --
 -- Triggers `users`
