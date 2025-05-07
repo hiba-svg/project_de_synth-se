@@ -76,6 +76,8 @@ INSERT INTO `categories` (`id`, `name`, `created_at`) VALUES
 (3, 'Pasta', '2025-04-23 03:10:18'),
 (4, 'Frites', '2025-04-23 03:10:18'),
 (5, 'Salade', '2025-04-23 03:10:18');
+(6, 'limonade', '2025-05-04 17:55:18');
+
 
 -- --------------------------------------------------------
 
@@ -100,7 +102,7 @@ CREATE TABLE `footer` (
 --
 
 INSERT INTO `footer` (`id`, `address`, `phone`, `email`, `hours_days`, `hours_time`, `facebook`, `instagram`, `twitter`) VALUES
-(1, '123 Rue Elbaraka, Casablanca', '+212 522 23 45 67', 'Elbaraka@gmail.com', 'tout les jours', '10:00 AM - 10:00 PM', 'https://www.facebook.com/elbaraka', 'https://www.instagram.com/elbaraka', 'https://twitter.com/elbaraka');
+(1, '123 Rue Elbaraka, Errachidia', '+212 522 23 45 67', 'Elbaraka@gmail.com', 'tout les jours', '10:00 AM - 10:00 PM', 'https://www.facebook.com/elbaraka', 'https://www.instagram.com/elbaraka', 'https://twitter.com/elbaraka');
 
 -- --------------------------------------------------------
 
@@ -302,7 +304,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `type`, `full_name`, `created_at`) VALUES
-(1, 'admin', '$2y$10$RdbdCLF16UnRHTl0Y0JucOk0dL49QY.6NFJrL1XUWNOXVVqPITMkW', 'admin', 'Souhaib', '2025-04-23 05:25:09');
+(1, 'admin', '$2y$10$RdbdCLF16UnRHTl0Y0JucOk0dL49QY.6NFJrL1XUWNOXVVqPITMkW', 'admin', 'Hiba', '2025-04-23 05:25:09');
+(1, 'admin', '$2y$10$RdbdCLF16UnRHTl0Y0JucOk0dL49QY.6NFJrL1XUWNOXVVqPITMkW', 'admin', 'salma', '2025-04-23 05:25:09');
 
 --
 -- Triggers `users`
